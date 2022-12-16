@@ -12,6 +12,11 @@ export const Status = () => {
     const { state, setAccountStatus, setState, setTransactionStatus } = useMinaWeb3Context()
     const [loading, setLoading] = useState(false);
 
+    const auroLink = 'https://www.aurowallet.com/';
+    const auroLinkElem = <a href={auroLink} target="_blank" rel="noreferrer"> [Link] </a>
+
+    const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
+
     useEffect(() => {
         (async () => {
             if (!state.hasBeenSetup) {
@@ -74,9 +79,44 @@ export const Status = () => {
         })();
     }, [setState, state]);
 
+    // -------------------------------------------------------
+    // Wait for account to exist, if it didn't
+
+    useEffect(() => {
+        (async () => {
+            if (state.hasBeenSetup && !state.accountExists) {
+                setLoading(true);
+                for (; ;) {
+                    console.log('checking if account exists...');
+                    const res = await state.zkappWorkerClient!.fetchAccount({ publicKey: state.publicKey! })
+                    const accountExists = res.error == null;
+                    if (accountExists) {
+                        break;
+                    }
+                    await new Promise((resolve) => setTimeout(resolve, 5000));
+                }
+                setState({ ...state, accountExists: true });
+                setLoading(false);
+            }
+        })();
+    }, [state.hasBeenSetup]);
+
     return (
         <>
-            Status: {loading ? <> Loading ZKApp <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true" className="opacity-25" /> </> : "Active"}
+            Status:
+            {
+                loading ?
+                    <> Loading ZKApp <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true" className="opacity-25" /> </>
+                    : (state.hasWallet != null && !state.hasWallet) ?
+                        <div> Could not find a wallet. Install Auro wallet here: {auroLinkElem}</div>
+                        : (state.hasBeenSetup && !state.accountExists) ?
+                            <div>
+                                Account does not exist. Please visit the faucet to fund this account
+                                <a href={faucetLink} target="_blank" rel="noreferrer"> [Link] </a>
+                            </div>
+                            :
+                            "Active"
+            }
         </>
     )
 }
