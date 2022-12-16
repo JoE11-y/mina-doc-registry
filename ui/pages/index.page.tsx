@@ -12,8 +12,8 @@ function Index() {
       <div>
         <section id="viewHome" className="my-5">
           <h1>Document Registry</h1>
-          Welcome to the "Document Registry" DApp. This decentralized app runs on
-          the Near Protocol network and holds a registry of documents in on chain.
+          Welcome to the Document Registry DApp. This decentralized app runs on
+          the Mina Protocol network and holds a registry of documents in an on chain hash.
           <ul>
             <li>
               The registry keeps the hashes of the documents along with their
@@ -28,10 +28,10 @@ function Index() {
               document in the registry.
             </li>
             <li>
-              Contract <b className="fw-bold">address</b> (on Near testnet):{" "}
-              <a href="https://explorer.testnet.near.org/accounts/docreg.tamaraebi.testnet" id="contractLink" target="_blank" rel="noreferrer">
+              Contract <b className="fw-bold">address</b> (on Berkeley testnet):{" "}
+              <a href="https://berkeley.minaexplorer.com/wallet/B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1" id="contractLink" target="_blank" rel="noreferrer">
                 {" "}
-                docreg.tamaraebi.testnet
+                B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1
               </a>
             </li>
             <li>

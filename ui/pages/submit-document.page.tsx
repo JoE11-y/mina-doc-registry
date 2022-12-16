@@ -10,7 +10,7 @@ const Submit = () => {
                 <h5 className="fw-bold">Submit a Document</h5>
                 <p>
                     Contract owners can register (upload) new documents to the "Document
-                    Registry" smart contract on the Celo blockchain decentralized network.
+                    Registry" smart contract on the Mina Protocol decentralized network.
                 </p>
                 <div>
                     <Upload id="documentForUpload" />

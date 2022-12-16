@@ -10,7 +10,7 @@ const Verify = () => {
                 <h5 className="fw-bold">Verify a Document</h5>
                 <p>
                     Blockchain users can verify documents by checking whether they exist in
-                    the "Document Registry" smart contract on the Celo blockchain
+                    the Document Registry smart contract on the Mina Protocol
                     decentralized network.
                 </p>
                 <Upload id="documentToVerify" />

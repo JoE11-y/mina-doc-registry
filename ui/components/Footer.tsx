@@ -4,13 +4,13 @@ export const Footer = () => {
 	return (
 		<footer>
 			<a
-				href="https://github.com/Tamara-Ebi-Pere-Victor/Near-Document-Registry"
+				href="https://github.com/JoE11-y/mina-doc-registry"
 				target={"_blank"}
 				rel="noreferrer"
 			>
-				Document Registry
+				Mina Document Registry
 			</a>{" "}
-			- ReactJS & NEAR Protocol DApp
+			- NextJS & Mina Protocol ZKApp
 		</footer>
 	)
 }
