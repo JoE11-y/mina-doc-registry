@@ -1,7 +1,7 @@
 # mina-doc-registry
 zkApp for zk-ignite cohort 0 
 
-##PLEASE NOTE: ZKApp is still in development.
+## PLEASE NOTE: ZKApp is still in development.
 
 This is a Dapp that helps users verify documents that have been issued by an organization. 
 
