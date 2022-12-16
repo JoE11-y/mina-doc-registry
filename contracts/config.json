@@ -1,4 +1,11 @@
 {
   "version": 1,
-  "networks": {}
+  "networks": {
+    "doc-registry": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/doc-registry.json",
+      "fee": "0.1",
+      "smartContract": "DocRegistry"
+    }
+  }
 }
