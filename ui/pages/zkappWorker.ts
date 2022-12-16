@@ -13,7 +13,6 @@ export class MyMerkleWitness extends MerkleWitness(20) { }
 // ---------------------------------------------------------------------------------------
 
 import type { DocRegistry } from '../../contracts/src/DocRegistry';
-import type { Add } from '../../contracts/src/Add';
 
 const state = {
   DocRegistry: null as null | typeof DocRegistry,
