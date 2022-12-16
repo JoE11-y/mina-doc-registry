@@ -3,21 +3,8 @@ import ZkappWorkerClient from "../../pages/zkappWorkerClient"
 
 import {
     PublicKey,
-    PrivateKey,
     Field,
 } from 'snarkyjs'
-
-
-// let [state, setState] = useState({
-//     zkappWorkerClient: null as null | ZkappWorkerClient,
-//     hasWallet: null as null | boolean,
-//     hasBeenSetup: false,
-//     accountExists: false,
-//     currentNum: null as null | Field,
-//     publicKey: null as null | PublicKey,
-//     zkappPublicKey: null as null | PublicKey,
-//     creatingTransaction: false,
-// });
 
 interface State {
     zkappWorkerClient: null | ZkappWorkerClient,

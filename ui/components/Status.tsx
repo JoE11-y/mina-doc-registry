@@ -4,18 +4,19 @@ import { useMinaWeb3Context } from "../lib/context/minaWeb3"
 import ZkappWorkerClient from "../pages/zkappWorkerClient"
 import {
     PublicKey,
-    PrivateKey,
-    Field,
 } from 'snarkyjs'
 
 export const Status = () => {
-    const { state, setAccountStatus, setState, setTransactionStatus } = useMinaWeb3Context()
+    const { state, setAccountStatus, setState } = useMinaWeb3Context()
     const [loading, setLoading] = useState(false);
 
     const auroLink = 'https://www.aurowallet.com/';
     const auroLinkElem = <a href={auroLink} target="_blank" rel="noreferrer"> [Link] </a>
 
     const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
+
+    // -------------------------------------------------------
+    // Do Setup
 
     useEffect(() => {
         (async () => {
@@ -95,7 +96,7 @@ export const Status = () => {
                     }
                     await new Promise((resolve) => setTimeout(resolve, 5000));
                 }
-                setState({ ...state, accountExists: true });
+                setAccountStatus({ accountExists: true });
                 setLoading(false);
             }
         })();

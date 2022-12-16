@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { Container } from "react-bootstrap"
 import { Header, Footer } from "../components";
+import { useMinaWeb3Context } from "../lib/context/minaWeb3";
 function Index() {
-  const [docNo, setDocNo] = useState(0);
-  useEffect(() => {
-
-  }, []);
+  const { state } = useMinaWeb3Context()
   return (
     <Container>
       <Header />
@@ -29,16 +27,16 @@ function Index() {
             </li>
             <li>
               Contract <b className="fw-bold">address</b> (on Berkeley testnet):{" "}
-              <a href="https://berkeley.minaexplorer.com/wallet/B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1" id="contractLink" target="_blank" rel="noreferrer">
+              <a href={state.zkappPublicKey ? `https://berkeley.minaexplorer.com/wallet/${state.zkappPublicKey.toBase58()}` : "https://berkeley.minaexplorer.com/wallet/"} id="contractLink" target="_blank" rel="noreferrer">
                 {" "}
-                B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1
+                {state.zkappPublicKey ? state.zkappPublicKey.toBase58() : "Loading..."}
               </a>
             </li>
             <li>
               Number of <b className="fw-bold">Documents</b> in registry:{" "}
               <b className="fw-bold">
                 <a id="docsInRegistry" href="#docsInRegistry">
-                  {docNo}
+                  {state.noOfDocs?.toString()}
                 </a>
               </b>{" "}
               Documents
@@ -47,7 +45,7 @@ function Index() {
         </section>
       </div>
       <Footer />
-    </Container>
+    </Container >
 
   )
 }
