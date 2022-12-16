@@ -50,8 +50,9 @@ export const Status = () => {
 
                 console.log('getting zkApp state...');
                 await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey })
-                const currentNum = await zkappWorkerClient.getNum();
-                console.log('current state:', currentNum.toString());
+                const noOfDocs = await zkappWorkerClient.getNumOfDocs();
+                const registryHash = await zkappWorkerClient.getRegistryHash();
+                console.log('current states:', noOfDocs.toString(), registryHash.toString());
 
                 setState({
                     zkappWorkerClient,
@@ -60,7 +61,8 @@ export const Status = () => {
                     publicKey,
                     zkappPublicKey,
                     accountExists,
-                    currentNum
+                    noOfDocs,
+                    registryHash
                 });
             }
         })();
