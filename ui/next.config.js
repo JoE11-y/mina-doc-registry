@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: false,
 
-  pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
+  pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,
-      snarkyjs: require('path').resolve('node_modules/snarkyjs'),
-    }
+      snarkyjs: require("path").resolve("node_modules/snarkyjs"),
+    };
     config.optimization.minimizer = [];
     return config;
   },
@@ -16,15 +16,15 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
           },
           {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
           },
         ],
       },
@@ -33,8 +33,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/doc-registry' : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/doc-registry/' : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
+  basePath:
+    process.env.NODE_ENV === "production" ? "/mina-doc-registry" : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
+  assetPrefix:
+    process.env.NODE_ENV === "production" ? "/mina-doc-registry/" : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;
