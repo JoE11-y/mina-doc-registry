@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useMinaWeb3Context } from "../lib/context/minaWeb3"
 import ZkappWorkerClient from "../pages/zkappWorkerClient"
@@ -10,10 +10,12 @@ import {
 
 export const Status = () => {
     const { state, setAccountStatus, setState, setTransactionStatus } = useMinaWeb3Context()
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
             if (!state.hasBeenSetup) {
+                setLoading(true);
                 const zkappWorkerClient = new ZkappWorkerClient();
 
                 console.log('Loading SnarkyJS...');
@@ -45,15 +47,18 @@ export const Status = () => {
                 console.log('zkApp compiled');
 
                 const zkappPublicKey = PublicKey.fromBase58('B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1');
-
-                await zkappWorkerClient.initZkappInstance(zkappPublicKey);
-
-                console.log('getting zkApp state...');
-                await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey })
-                const noOfDocs = await zkappWorkerClient.getNumOfDocs();
-                const registryHash = await zkappWorkerClient.getRegistryHash();
-                console.log('current states:', noOfDocs.toString(), registryHash.toString());
-
+                const res2 = await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey! });
+                const zkAppExists = res2.error == null;
+                let noOfDocs = null;
+                let registryHash = null;
+                if (zkAppExists) {
+                    await zkappWorkerClient.initZkappInstance(zkappPublicKey);
+                    console.log('getting zkApp state...');
+                    await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey })
+                    noOfDocs = await zkappWorkerClient.getNumOfDocs();
+                    registryHash = await zkappWorkerClient.getRegistryHash();
+                    console.log('current states:', noOfDocs.toString(), registryHash.toString());
+                }
                 setState({
                     zkappWorkerClient,
                     hasWallet: true,
@@ -64,13 +69,14 @@ export const Status = () => {
                     noOfDocs,
                     registryHash
                 });
+                setLoading(false);
             }
         })();
     }, [setState, state]);
 
     return (
         <>
-            Status: <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true" className="opacity-25" />
+            Status: {loading ? <> Loading ZKApp <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true" className="opacity-25" /> </> : "Active"}
         </>
     )
 }

@@ -39,12 +39,21 @@ export default class ZkappWorkerClient {
 
   async getNumOfDocs(): Promise<Field> {
     const result = await this._call('getNumOfDocs', {});
-    return Field.fromJSON(JSON.parse(result as string));
+    if (result) {
+      return Field.fromJSON(JSON.parse(result as string));
+    } else {
+      return Field(0)
+    }
   }
 
   async getRegistryHash(): Promise<Field> {
     const result = await this._call('getRegistryHash', {});
-    return Field.fromJSON(JSON.parse(result as string));
+    console.log(result)
+    if (result) {
+      return Field.fromJSON(JSON.parse(result as string));
+    } else {
+      return Field(0)
+    }
   }
 
   createUploadTxn(docHash: CircuitString, path: MyMerkleWitness) {
