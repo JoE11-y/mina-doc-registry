@@ -64,7 +64,7 @@ export const Status = () => {
                 });
             }
         })();
-    }, []);
+    }, [setState, state]);
 
     return (
         <>
