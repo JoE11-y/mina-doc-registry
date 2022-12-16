@@ -1,3 +1,3 @@
-import { Add } from './Add.js';
+import { DocRegistry } from './DocRegistry.js';
 
-export { Add };
+export { DocRegistry };
