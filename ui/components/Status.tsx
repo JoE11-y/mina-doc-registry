@@ -13,8 +13,8 @@ export const Status = () => {
     const auroLink = 'https://www.aurowallet.com/';
     const auroLinkElem = <a href={auroLink} target="_blank" rel="noreferrer"> [Link] </a>
 
-    const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
-
+    // const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
+    const faucetLink = "https://faucet.minaprotocol.com/?address=";
     // -------------------------------------------------------
     // Do Setup
 
