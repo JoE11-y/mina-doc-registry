@@ -1,13 +1,13 @@
-(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[405],{
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[99],{
 
-/***/ 9208:
+/***/ 6476:
 /***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
 
 
     (window.__NEXT_P = window.__NEXT_P || []).push([
-      "/",
+      "/submit-document",
       function () {
-        return __webpack_require__(5128);
+        return __webpack_require__(7333);
       }
     ]);
     if(false) {}
@@ -90,11 +90,20 @@ class ZkappWorkerClient {
     }
     async getNumOfDocs() {
         const result = await this._call("getNumOfDocs", {});
-        return web/* Field.fromJSON */.gN.fromJSON(JSON.parse(result));
+        if (result) {
+            return web/* Field.fromJSON */.gN.fromJSON(JSON.parse(result));
+        } else {
+            return (0,web/* Field */.gN)(0);
+        }
     }
     async getRegistryHash() {
         const result = await this._call("getRegistryHash", {});
-        return web/* Field.fromJSON */.gN.fromJSON(JSON.parse(result));
+        console.log(result);
+        if (result) {
+            return web/* Field.fromJSON */.gN.fromJSON(JSON.parse(result));
+        } else {
+            return (0,web/* Field */.gN)(0);
+        }
     }
     createUploadTxn(docHash, path) {
         return this._call("createUploadTransaction", {
@@ -157,10 +166,23 @@ class ZkappWorkerClient {
 
 
 const Status = ()=>{
-    const { state , setAccountStatus , setState , setTransactionStatus  } = (0,minaWeb3/* useMinaWeb3Context */.Q)();
+    const { state , setAccountStatus , setState  } = (0,minaWeb3/* useMinaWeb3Context */.Q)();
+    const [loading, setLoading] = (0,react.useState)(false);
+    const auroLink = "https://www.aurowallet.com/";
+    const auroLinkElem = /*#__PURE__*/ (0,jsx_runtime.jsx)("a", {
+        href: auroLink,
+        target: "_blank",
+        rel: "noreferrer",
+        children: " [Link] "
+    });
+    // const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
+    const faucetLink = "https://faucet.minaprotocol.com/?address=";
+    // -------------------------------------------------------
+    // Do Setup
     (0,react.useEffect)(()=>{
         (async ()=>{
             if (!state.hasBeenSetup) {
+                setLoading(true);
                 const zkappWorkerClient = new ZkappWorkerClient();
                 console.log("Loading SnarkyJS...");
                 await zkappWorkerClient.loadSnarkyJS();
@@ -187,14 +209,22 @@ const Status = ()=>{
                 await zkappWorkerClient.compileContract();
                 console.log("zkApp compiled");
                 const zkappPublicKey = web/* PublicKey.fromBase58 */.nh.fromBase58("B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1");
-                await zkappWorkerClient.initZkappInstance(zkappPublicKey);
-                console.log("getting zkApp state...");
-                await zkappWorkerClient.fetchAccount({
+                const res2 = await zkappWorkerClient.fetchAccount({
                     publicKey: zkappPublicKey
                 });
-                const noOfDocs = await zkappWorkerClient.getNumOfDocs();
-                const registryHash = await zkappWorkerClient.getRegistryHash();
-                console.log("current states:", noOfDocs.toString(), registryHash.toString());
+                const zkAppExists = res2.error == null;
+                let noOfDocs = null;
+                let registryHash = null;
+                if (zkAppExists) {
+                    await zkappWorkerClient.initZkappInstance(zkappPublicKey);
+                    console.log("getting zkApp state...");
+                    await zkappWorkerClient.fetchAccount({
+                        publicKey: zkappPublicKey
+                    });
+                    noOfDocs = await zkappWorkerClient.getNumOfDocs();
+                    registryHash = await zkappWorkerClient.getRegistryHash();
+                    console.log("current states:", noOfDocs.toString(), registryHash.toString());
+                }
                 setState({
                     zkappWorkerClient,
                     hasWallet: true,
@@ -205,23 +235,71 @@ const Status = ()=>{
                     noOfDocs,
                     registryHash
                 });
+                setLoading(false);
             }
         })();
     }, [
         setState,
         state
     ]);
+    // -------------------------------------------------------
+    // Wait for account to exist, if it didn't
+    (0,react.useEffect)(()=>{
+        (async ()=>{
+            if (state.hasBeenSetup && !state.accountExists) {
+                setLoading(true);
+                for(;;){
+                    console.log("checking if account exists...");
+                    const res = await state.zkappWorkerClient.fetchAccount({
+                        publicKey: state.publicKey
+                    });
+                    const accountExists = res.error == null;
+                    if (accountExists) {
+                        break;
+                    }
+                    await new Promise((resolve)=>setTimeout(resolve, 5000));
+                }
+                setAccountStatus({
+                    accountExists: true
+                });
+                setLoading(false);
+            }
+        })();
+    }, [
+        state.hasBeenSetup
+    ]);
     return /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
         children: [
-            "Status: ",
-            /*#__PURE__*/ (0,jsx_runtime.jsx)(Spinner/* default */.Z, {
-                animation: "border",
-                as: "span",
-                size: "sm",
-                role: "status",
-                "aria-hidden": "true",
-                className: "opacity-25"
-            })
+            "Status:",
+            loading ? /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+                children: [
+                    " Loading ZKApp ",
+                    /*#__PURE__*/ (0,jsx_runtime.jsx)(Spinner/* default */.Z, {
+                        animation: "border",
+                        as: "span",
+                        size: "sm",
+                        role: "status",
+                        "aria-hidden": "true",
+                        className: "opacity-25"
+                    }),
+                    " "
+                ]
+            }) : state.hasWallet != null && !state.hasWallet ? /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                children: [
+                    " Could not find a wallet. Install Auro wallet here: ",
+                    auroLinkElem
+                ]
+            }) : state.hasBeenSetup && !state.accountExists ? /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                children: [
+                    "Account does not exist. Please visit the faucet to fund this account",
+                    /*#__PURE__*/ (0,jsx_runtime.jsx)("a", {
+                        href: faucetLink,
+                        target: "_blank",
+                        rel: "noreferrer",
+                        children: " [Link] "
+                    })
+                ]
+            }) : "Active"
         ]
     });
 };
@@ -292,13 +370,12 @@ var sha3 = __webpack_require__(1094);
 
 
 
+
 const Upload = (param)=>{
     let { id  } = param;
-    // const account = window.walletConnection.account();
+    const { state  } = (0,minaWeb3/* useMinaWeb3Context */.Q)();
     const [hash, setHash] = (0,react.useState)("");
     const [name, setName] = (0,react.useState)("");
-    const [userStatus, setUserStatus] = (0,react.useState)(false);
-    const [adminStatus, setAdminStatus] = (0,react.useState)(false);
     const dateAdded = Date.now().toString();
     const [loading, setLoading] = (0,react.useState)(false);
     function handleOnChange(file) {
@@ -364,11 +441,6 @@ const Upload = (param)=>{
     // 	console.log("invalid ID")
     // }
     }
-    // useEffect(() => {
-    // 	if (hash && account) {
-    // 		getStatuses()
-    // 	}
-    // }, [hash, account, getStatuses])
     return /*#__PURE__*/ (0,jsx_runtime.jsxs)(Form/* default */.Z, {
         onSubmit: onSubmit,
         className: "mt-4",
@@ -419,7 +491,7 @@ const Upload = (param)=>{
 
 /***/ }),
 
-/***/ 5128:
+/***/ 7333:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -432,96 +504,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Index() {
-    const [docNo, setDocNo] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
-    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{}, []);
+const Submit = ()=>{
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Header */ .h4, {}),
-            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
-                    id: "viewHome",
-                    className: "my-5",
-                    children: [
-                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-                            children: "Document Registry"
-                        }),
-                        "Welcome to the Document Registry DApp. This decentralized app runs on the Mina Protocol network and holds a registry of documents in an on chain hash.",
-                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
-                            children: [
-                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-                                    children: "The registry keeps the hashes of the documents along with their publish date."
-                                }),
-                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
-                                    children: [
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
-                                            className: "fw-bold",
-                                            children: "Contract owner"
-                                        }),
-                                        " can submit new documents to be stored on the blockchain."
-                                    ]
-                                }),
-                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
-                                    children: [
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
-                                            className: "fw-bold",
-                                            children: "Users"
-                                        }),
-                                        " can verify the existence of certain document in the registry."
-                                    ]
-                                }),
-                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
-                                    children: [
-                                        "Contract ",
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
-                                            className: "fw-bold",
-                                            children: "address"
-                                        }),
-                                        " (on Berkeley testnet):",
-                                        " ",
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("a", {
-                                            href: "https://berkeley.minaexplorer.com/wallet/B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1",
-                                            id: "contractLink",
-                                            target: "_blank",
-                                            rel: "noreferrer",
-                                            children: [
-                                                " ",
-                                                "B62qiVYJgMHVjqEMVjBdFr8XHCQ358MWpUHqQ6gbWPbE9Ef9jQYDMu1"
-                                            ]
-                                        })
-                                    ]
-                                }),
-                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
-                                    children: [
-                                        "Number of ",
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
-                                            className: "fw-bold",
-                                            children: "Documents"
-                                        }),
-                                        " in registry:",
-                                        " ",
-                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
-                                            className: "fw-bold",
-                                            children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
-                                                id: "docsInRegistry",
-                                                href: "#docsInRegistry",
-                                                children: docNo
-                                            })
-                                        }),
-                                        " ",
-                                        "Documents"
-                                    ]
-                                })
-                            ]
+            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "my-5",
+                children: [
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                        className: "fw-bold",
+                        children: "Submit a Document"
+                    }),
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                        children: "Contract owners can register (upload) new documents to the Document Registry smart contract on the Mina Protocol decentralized network."
+                    }),
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                        children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Upload */ .gq, {
+                            id: "documentForUpload"
                         })
-                    ]
-                })
+                    })
+                ]
             }),
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Footer */ .$_, {})
         ]
     });
-}
-/* harmony default export */ __webpack_exports__["default"] = (Index);
+};
+/* harmony default export */ __webpack_exports__["default"] = (Submit);
 
 
 /***/ })
@@ -529,7 +537,7 @@ function Index() {
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(9208); });
+/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(6476); });
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ _N_E = __webpack_exports__;
 /******/ }
