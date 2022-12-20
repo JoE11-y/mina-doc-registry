@@ -27,9 +27,9 @@ function Index() {
             </li>
             <li>
               Contract <b className="fw-bold">address</b> (on Berkeley testnet):{" "}
-              <a href={state.zkappPublicKey != null ? `https://berkeley.minaexplorer.com/wallet/${state.zkappPublicKey.toBase58()}` : "https://berkeley.minaexplorer.com/wallet/"} id="contractLink" target="_blank" rel="noreferrer">
+              <a href={state.zkappPublicKey ? `https://berkeley.minaexplorer.com/wallet/${state.zkappPublicKey.toBase58()}` : "https://berkeley.minaexplorer.com/wallet/"} id="contractLink" target="_blank" rel="noreferrer">
                 {" "}
-                {state.zkappPublicKey != null ? state.zkappPublicKey.toBase58() : "Loading..."}
+                {state.zkappPublicKey ? state.zkappPublicKey.toBase58() : "Loading..."}
               </a>
             </li>
             <li>
