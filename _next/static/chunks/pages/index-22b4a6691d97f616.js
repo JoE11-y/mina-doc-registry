@@ -1,13 +1,13 @@
-(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[240],{
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[405],{
 
-/***/ 7347:
+/***/ 9208:
 /***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
 
 
     (window.__NEXT_P = window.__NEXT_P || []).push([
-      "/verify-document",
+      "/",
       function () {
-        return __webpack_require__(3707);
+        return __webpack_require__(5128);
       }
     ]);
     if(false) {}
@@ -175,8 +175,7 @@ const Status = ()=>{
         rel: "noreferrer",
         children: " [Link] "
     });
-    // const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
-    const faucetLink = "https://faucet.minaprotocol.com/?address=";
+    const faucetLink = state.publicKey ? "https://faucet.minaprotocol.com/?address=" + state.publicKey.toBase58() : "";
     // -------------------------------------------------------
     // Do Setup
     (0,react.useEffect)(()=>{
@@ -491,43 +490,111 @@ const Upload = (param)=>{
 
 /***/ }),
 
-/***/ 3707:
+/***/ 5128:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5893);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7294);
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(682);
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(682);
 /* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7801);
+/* harmony import */ var _lib_context_minaWeb3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2531);
 
 
 
 
-const Verify = ()=>{
-    return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
+
+function Index() {
+    var _state_noOfDocs;
+    const { state  } = (0,_lib_context_minaWeb3__WEBPACK_IMPORTED_MODULE_3__/* .useMinaWeb3Context */ .Q)();
+    return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Header */ .h4, {}),
-            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: "my-5",
-                children: [
-                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
-                        className: "fw-bold",
-                        children: "Verify a Document"
-                    }),
-                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                        children: "Blockchain users can verify documents by checking whether they exist in the Document Registry smart contract on the Mina Protocol decentralized network."
-                    }),
-                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Upload */ .gq, {
-                        id: "documentToVerify"
-                    })
-                ]
+            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+                    id: "viewHome",
+                    className: "my-5",
+                    children: [
+                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+                            children: "Document Registry"
+                        }),
+                        "Welcome to the Document Registry DApp. This decentralized app runs on the Mina Protocol network and holds a registry of documents in an on chain hash.",
+                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
+                            children: [
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+                                    children: "The registry keeps the hashes of the documents along with their publish date."
+                                }),
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
+                                    children: [
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                                            className: "fw-bold",
+                                            children: "Contract owner"
+                                        }),
+                                        " can submit new documents to be stored on the blockchain."
+                                    ]
+                                }),
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
+                                    children: [
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                                            className: "fw-bold",
+                                            children: "Users"
+                                        }),
+                                        " can verify the existence of certain document in the registry."
+                                    ]
+                                }),
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
+                                    children: [
+                                        "Contract ",
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                                            className: "fw-bold",
+                                            children: "address"
+                                        }),
+                                        " (on Berkeley testnet):",
+                                        " ",
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("a", {
+                                            href: state.zkappPublicKey ? "https://berkeley.minaexplorer.com/wallet/".concat(state.zkappPublicKey.toBase58()) : "https://berkeley.minaexplorer.com/wallet/",
+                                            id: "contractLink",
+                                            target: "_blank",
+                                            rel: "noreferrer",
+                                            children: [
+                                                " ",
+                                                state.zkappPublicKey ? state.zkappPublicKey.toBase58() : "Loading..."
+                                            ]
+                                        })
+                                    ]
+                                }),
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("li", {
+                                    children: [
+                                        "Number of ",
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                                            className: "fw-bold",
+                                            children: "Documents"
+                                        }),
+                                        " in registry:",
+                                        " ",
+                                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                                            className: "fw-bold",
+                                            children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+                                                id: "docsInRegistry",
+                                                href: "#docsInRegistry",
+                                                children: (_state_noOfDocs = state.noOfDocs) === null || _state_noOfDocs === void 0 ? void 0 : _state_noOfDocs.toString()
+                                            })
+                                        }),
+                                        " ",
+                                        "Documents"
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                })
             }),
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Footer */ .$_, {})
         ]
     });
-};
-/* harmony default export */ __webpack_exports__["default"] = (Verify);
+}
+/* harmony default export */ __webpack_exports__["default"] = (Index);
 
 
 /***/ })
@@ -535,7 +602,7 @@ const Verify = ()=>{
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(7347); });
+/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(9208); });
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ _N_E = __webpack_exports__;
 /******/ }

@@ -1,13 +1,13 @@
-(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[99],{
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[240],{
 
-/***/ 6476:
+/***/ 7347:
 /***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
 
 
     (window.__NEXT_P = window.__NEXT_P || []).push([
-      "/submit-document",
+      "/verify-document",
       function () {
-        return __webpack_require__(7333);
+        return __webpack_require__(3707);
       }
     ]);
     if(false) {}
@@ -175,8 +175,7 @@ const Status = ()=>{
         rel: "noreferrer",
         children: " [Link] "
     });
-    // const faucetLink = "https://faucet.minaprotocol.com/?address=" + state.publicKey!.toBase58();
-    const faucetLink = "https://faucet.minaprotocol.com/?address=";
+    const faucetLink = state.publicKey ? "https://faucet.minaprotocol.com/?address=" + state.publicKey.toBase58() : "";
     // -------------------------------------------------------
     // Do Setup
     (0,react.useEffect)(()=>{
@@ -491,7 +490,7 @@ const Upload = (param)=>{
 
 /***/ }),
 
-/***/ 7333:
+/***/ 3707:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -504,7 +503,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Submit = ()=>{
+const Verify = ()=>{
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Header */ .h4, {}),
@@ -513,15 +512,13 @@ const Submit = ()=>{
                 children: [
                     /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
                         className: "fw-bold",
-                        children: "Submit a Document"
+                        children: "Verify a Document"
                     }),
                     /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                        children: "Contract owners can register (upload) new documents to the Document Registry smart contract on the Mina Protocol decentralized network."
+                        children: "Blockchain users can verify documents by checking whether they exist in the Document Registry smart contract on the Mina Protocol decentralized network."
                     }),
-                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                        children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Upload */ .gq, {
-                            id: "documentForUpload"
-                        })
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components__WEBPACK_IMPORTED_MODULE_2__/* .Upload */ .gq, {
+                        id: "documentToVerify"
                     })
                 ]
             }),
@@ -529,7 +526,7 @@ const Submit = ()=>{
         ]
     });
 };
-/* harmony default export */ __webpack_exports__["default"] = (Submit);
+/* harmony default export */ __webpack_exports__["default"] = (Verify);
 
 
 /***/ })
@@ -537,7 +534,7 @@ const Submit = ()=>{
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(6476); });
+/******/ __webpack_require__.O(0, [829,337,774,888,179], function() { return __webpack_exec__(7347); });
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ _N_E = __webpack_exports__;
 /******/ }
