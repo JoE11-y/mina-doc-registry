@@ -2,17 +2,15 @@ import React, { useState, useCallback, useEffect } from "react"
 import { toast } from "react-toastify";
 import { Form, Button, Spinner } from "react-bootstrap"
 import { sha3_256 } from "js-sha3"
+import { useMinaWeb3Context } from "../lib/context/minaWeb3";
 
 export const Upload: React.FC<{ id: string }> = ({ id }) => {
-	// const account = window.walletConnection.account();
+
+	const { state } = useMinaWeb3Context()
 
 	const [hash, setHash] = useState("");
 
 	const [name, setName] = useState("");
-
-	const [userStatus, setUserStatus] = useState(false);
-
-	const [adminStatus, setAdminStatus] = useState(false);
 
 	const dateAdded = Date.now().toString();
 
@@ -90,12 +88,6 @@ export const Upload: React.FC<{ id: string }> = ({ id }) => {
 		// 	console.log("invalid ID")
 		// }
 	}
-
-	// useEffect(() => {
-	// 	if (hash && account) {
-	// 		getStatuses()
-	// 	}
-	// }, [hash, account, getStatuses])
 
 	return (
 		<Form onSubmit={onSubmit} className="mt-4">
